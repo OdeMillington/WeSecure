@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
+import * as SQLite from 'expo-sqlite/next'
+
+const db = SQLite.openDatabaseAsync('userdata', {
+    useNewConnection: true // Stops 'NativeDatabase.prepareAsync' has been rejected error
+})
 
 export default function LoginScreen({ navigation }) {
+
+    const createTable = async () => {
+        (await db).execAsync('PRAGMA lock_status = unlocked; CREATE TABLE IF NOT EXISTS passwords (service_name TEXT, username TEXT, password TEXT, type TEXT)')
+    }
+
 
     const register = async () => {
         try {

@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as SQLite from 'expo-sqlite/next'
 
-export default function NewPasswordScreen({ navigator }) {
+const db = SQLite.openDatabaseAsync('userdata', {
+    useNewConnection: true  // Stops 'NativeDatabase.prepareAsync' has been rejected error
+})
+
+export default function NewPasswordScreen({ navigation }) {
+
+
 
     let [fontsLoaded] = useFonts(
         {
@@ -33,31 +39,34 @@ export default function NewPasswordScreen({ navigator }) {
         setPassword('')
         setUsername('')
         setverPassword('')
-        
+
     }
 
-    function submit() {
+    const submit = async () => {
         if (serviceName === '' || password === '' || username === '' || verPassword === '') {
             alert("Incomplete Field!")
+
         } else {
             if (password === verPassword) {
-                alert("Password Added!")
-                // DATABASE SHENANIGANS
                 
+                (await db).runAsync('INSERT INTO passwords (service_name, username, password, type) VALUES (?, ?, ?, ?)', [serviceName, username, password, type])
+                alert("Password Saved!")
+                reset()
+
             } else {
                 alert("Passwords do not match!")
             }
-        } 
+        }
     }
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 <View style={styles.formContainer}>
-                    
+
                     <View style={styles.picker}>
                         <Text style={styles.descriptionText}>Password Type</Text>
-                        <View style={{width: "85%"}}>
+                        <View style={{ width: "85%" }}>
                             <DropDownPicker
                                 open={open}
                                 value={value}
@@ -67,43 +76,43 @@ export default function NewPasswordScreen({ navigator }) {
                                 setItems={setItems}
                                 onChangeValue={(val) => setType(val)}
                                 listMode='SCROLLVIEW'
-                                dropDownDirection="BOTTOM">     
+                                dropDownDirection="BOTTOM">
                             </DropDownPicker>
                         </View>
                     </View>
 
-                    
+
                     <View style={styles.picker}>
-                        
+
                         <Text style={styles.descriptionText}>{value[0].toUpperCase() + value.slice(1)} Name</Text>
                         <TextInput style={styles.textInput}
-                        value={serviceName}
-                        onChangeText={(rea) => setServiceName(rea.trim())}
+                            value={serviceName}
+                            onChangeText={(rea) => setServiceName(rea.trim())}
                         />
                     </View>
 
                     <View>
                         <Text style={styles.descriptionText}>Username</Text>
-                        <TextInput style={styles.textInput} 
-                        value={username}
-                        onChangeText={(usern) => setUsername(usern.trim())}
+                        <TextInput style={styles.textInput}
+                            value={username}
+                            onChangeText={(usern) => setUsername(usern.trim())}
                         />
-                        
+
                     </View>
 
                     <View>
                         <Text style={styles.descriptionText}>Password</Text>
-                        <TextInput style={styles.textInput} 
-                        secureTextEntry
-                        value={password}
-                        onChangeText={(pwd) => setPassword(pwd.trim())}/>
+                        <TextInput style={styles.textInput}
+                            secureTextEntry
+                            value={password}
+                            onChangeText={(pwd) => setPassword(pwd.trim())} />
                     </View>
 
                     <View>
                         <Text style={styles.descriptionText}>Verify Password</Text>
-                        <TextInput style={styles.textInput} secureTextEntry 
-                        value = {verPassword}
-                        onChangeText={(verpwd) => setverPassword(verpwd.trim())}/>
+                        <TextInput style={styles.textInput} secureTextEntry
+                            value={verPassword}
+                            onChangeText={(verpwd) => setverPassword(verpwd.trim())} />
                     </View>
 
                     <View>
@@ -111,7 +120,7 @@ export default function NewPasswordScreen({ navigator }) {
                             <Text style={styles.buttonText}>SAVE</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={[styles.button, {backgroundColor: 'crimson', marginTop: 10}]} onPress={reset}>
+                        <TouchableOpacity style={[styles.button, { backgroundColor: 'crimson', marginTop: 10 }]} onPress={reset}>
                             <Text style={styles.buttonText}>RESET</Text>
                         </TouchableOpacity>
                     </View>
@@ -149,9 +158,9 @@ const styles = StyleSheet.create({
         paddingRight: 12
     },
     formContainer: {
-       flex: 1,
-       gap: 25,
-       alignItems: 'center'
+        flex: 1,
+        gap: 25,
+        alignItems: 'center'
     },
     button: {
         alignItems: 'center',

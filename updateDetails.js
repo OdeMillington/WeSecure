@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 import LoginScreen from './LoginScreen';
 
-export default function NewPasswordScreen({ navigator }) {
+export default function NewPasswordScreen({ navigation }) {
 
     let [fontsLoaded] = useFonts(
         {
@@ -28,7 +28,7 @@ export default function NewPasswordScreen({ navigator }) {
             if (currPass === currentPasswordValue) {
                 await AsyncStorage.multiSet([['Username', newUsername], ['Password', newPass]]);
                 alert("Account Details Updated!");
-                navigation.navigate('LoginScreen')
+                navigation.navigate('Login')
             } else {
                 alert("Current Password Invalid")
             }

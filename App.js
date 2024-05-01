@@ -10,6 +10,7 @@ import LoginScreen from './LoginScreen';
 import NewPasswordScreen from './NewPasswordScreen'
 import Test from './Test';
 import updateDetails from './updateDetails'
+import ViewPasswords from './ViewPasswords';
 
 
 const Stack = createNativeStackNavigator();
@@ -40,7 +41,7 @@ const Tabs = () => {
     >
       <Drawer.Screen name="Store Password" component={NewPasswordScreen} options={{ title: 'Store Password', drawerIcon: Plus }} />
       <Drawer.Screen name="Update User Details" component={updateDetails} options={{ title: 'Update User Details', drawerIcon: Update }} />
-      <Drawer.Screen name="View All Passwords" component={Test} options={{ title: 'View All Passwords', drawerIcon: View }} />
+      <Drawer.Screen name="View All Passwords" component={ViewPasswords} options={{ title: 'View All Passwords', drawerIcon: View }} />
       <Drawer.Screen name="Generate Password" component={Test} options={{ title: "Generate Password", drawerIcon: Generate }} />
     </Drawer.Navigator>
   );
