@@ -39,16 +39,19 @@ export default function NewPasswordScreen({ navigation }) {
         setPassword('')
         setUsername('')
         setverPassword('')
-
     }
 
     const submit = async () => {
+
+        setServiceName(serviceName.trim())
+        setUsername(username.trim())
+
         if (serviceName === '' || password === '' || username === '' || verPassword === '') {
             alert("Incomplete Field!")
 
         } else {
             if (password === verPassword) {
-                
+
                 (await db).runAsync('INSERT INTO passwords (service_name, username, password, type) VALUES (?, ?, ?, ?)', [serviceName, username, password, type])
                 alert("Password Saved!")
                 reset()
@@ -87,7 +90,7 @@ export default function NewPasswordScreen({ navigation }) {
                         <Text style={styles.descriptionText}>{value[0].toUpperCase() + value.slice(1)} Name</Text>
                         <TextInput style={styles.textInput}
                             value={serviceName}
-                            onChangeText={(rea) => setServiceName(rea.trim())}
+                            onChangeText={(rea) => setServiceName(rea)}
                         />
                     </View>
 
@@ -95,7 +98,7 @@ export default function NewPasswordScreen({ navigation }) {
                         <Text style={styles.descriptionText}>Username</Text>
                         <TextInput style={styles.textInput}
                             value={username}
-                            onChangeText={(usern) => setUsername(usern.trim())}
+                            onChangeText={(usern) => setUsername(usern)}
                         />
 
                     </View>

@@ -8,12 +8,14 @@ const db = SQLite.openDatabaseAsync('userdata', {
     useNewConnection: true // Stops 'NativeDatabase.prepareAsync' has been rejected error
 })
 
+
 export default function LoginScreen({ navigation }) {
 
     const createTable = async () => {
-        (await db).execAsync('PRAGMA lock_status = unlocked; CREATE TABLE IF NOT EXISTS passwords (service_name TEXT, username TEXT, password TEXT, type TEXT)')
+        (await db).execAsync('PRAGMA lock_status = unlocked;  CREATE TABLE IF NOT EXISTS passwords (service_name TEXT, username TEXT, password TEXT, type TEXT)')
     }
 
+    createTable()
 
     const register = async () => {
         try {
