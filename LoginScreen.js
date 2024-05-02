@@ -20,6 +20,11 @@ export default function LoginScreen({ navigation }) {
 
     const register = async () => {
         try {
+
+            if (username.trim() == '' || password.trim() == '') {
+                alert("Incomplete Fields!")
+            } else {
+
             let stored_user = await SecureStore.getItemAsync("username")
 
             if (username === stored_user) {
@@ -30,7 +35,7 @@ export default function LoginScreen({ navigation }) {
                 alert("Account Successfully created!");
                 setUsername("")
                 setPassword("")
-            }
+            }}
         } catch (error) {
             alert("Error Registering Account. Try again!");
         }
@@ -70,14 +75,14 @@ export default function LoginScreen({ navigation }) {
                     <Image
                         style={styles.homeImg}
                         source={require('./assets/image.png')}
-                        resizeMode="contain"
+                        resizeMode="center"
                     />
                 </View>
 
-                <View style={styles.textContainer}>
-                    <Text style={styles.mainText}>WeSecure</Text>
-                    <Text style={styles.subText}>Never forget your passwords!</Text>
-                </View>
+                
+                <Text style={styles.mainText}>WeSecure</Text>
+                <Text style={styles.subText}>Never forget your passwords!</Text>
+                
 
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -117,23 +122,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     imageContainer: {
-        marginTop: 50,
+        marginTop: 25,
         alignItems: 'center',
     },
     homeImg: {
         height: 250,
         width: 230,
     },
-    textContainer: {
-        alignItems: 'center',
-        marginBottom: 50,
-    },
     mainText: {
+        textAlign: 'center',
         color: 'white',
         fontSize: 55,
         fontFamily: 'Montserrat-Bold',
     },
     subText: {
+        marginBottom: 25,
         color: 'white',
         fontSize: 15,
         textAlign: 'center',

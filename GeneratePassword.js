@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
-import LoginScreen from './LoginScreen';
 
 export default function NewPasswordScreen({ navigator }) {
 
@@ -12,30 +10,39 @@ export default function NewPasswordScreen({ navigator }) {
             'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
             'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf')
         }
-    )
+    );
 
+    const [passwordLength, setPasswordLength] = useState(12); // Default password length
+
+    const generatePassword = () => {
+        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?'; // Characters to include in the password
+        let password = '';
+        for (let i = 0; i < passwordLength; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset[randomIndex];
+        }
+        return password;
+    };
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.formContainer}>
 
                 <View>
-                    <Text style={styles.descriptionText}>New Username</Text>
-                    <TextInput style={styles.textInput}
-
+                    <Text style={styles.descriptionText}>Enter Desired Length</Text>
+                    <TextInput
+                        style={styles.textInput}
+                        value={String(passwordLength)}
+                        onChangeText={text => setPasswordLength(parseInt(text) || 0)}
+                        keyboardType="numeric"
                     />
                 </View>
 
                 <View>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}>GENERATE</Text>
-                    </TouchableOpacity>
-                </View>
-
-                
-                <View>
                     <Text style={styles.descriptionText}>Password</Text>
-                    <TextInput style={styles.textInput}
+                    <TextInput
+                        style={styles.textInput}
+                        value={generatePassword()}
                     />
                 </View>
 

@@ -71,13 +71,14 @@ const styles = StyleSheet.create({
     box: {
         backgroundColor: 'white',
         borderWidth: 2,
-        height: 200,
+        height: 'auto',
         width: 275,
         borderColor: 'white',
         borderRadius: 20,
         color: 'white',
         fontFamily: 'Montserrat-Regular',
         paddingLeft: 25,
+        paddingBottom: 5,
         fontSize: 15,
         marginBottom: 10
     },
