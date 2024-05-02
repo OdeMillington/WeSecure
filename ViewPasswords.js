@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAr
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 import * as SQLite from 'expo-sqlite/next'
-import Clipboard from '@react-native-community/clipboard';
 
 const db = SQLite.openDatabaseAsync('userdata', {
     useNewConnection: true
