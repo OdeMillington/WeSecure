@@ -8,7 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 
 import LoginScreen from './LoginScreen';
 import NewPasswordScreen from './NewPasswordScreen'
-import Test from './Test';
+import GeneratePassword from './GeneratePassword';
 import updateDetails from './updateDetails'
 import ViewPasswords from './ViewPasswords';
 
@@ -33,6 +33,7 @@ const Tabs = () => {
 
   return (
     <Drawer.Navigator
+      initialRouteName='View All Passwords'
       screenOptions={{
         drawerStyle: { backgroundColor: '#262626' },
         drawerActiveTintColor: 'white',
@@ -42,7 +43,7 @@ const Tabs = () => {
       <Drawer.Screen name="Store Password" component={NewPasswordScreen} options={{ title: 'Store Password', drawerIcon: Plus }} />
       <Drawer.Screen name="Update User Details" component={updateDetails} options={{ title: 'Update User Details', drawerIcon: Update }} />
       <Drawer.Screen name="View All Passwords" component={ViewPasswords} options={{ title: 'View All Passwords', drawerIcon: View }} />
-      <Drawer.Screen name="Generate Password" component={Test} options={{ title: "Generate Password", drawerIcon: Generate }} />
+      <Drawer.Screen name="Generate Password" component={GeneratePassword} options={{ title: "Generate Password", drawerIcon: Generate }} />
     </Drawer.Navigator>
   );
 };

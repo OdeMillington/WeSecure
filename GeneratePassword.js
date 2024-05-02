@@ -14,60 +14,29 @@ export default function NewPasswordScreen({ navigator }) {
         }
     )
 
-    const [currPass, setCurrPass] = useState('')
-    const [newUsername, setNewUsername] = useState('')
-    const [newPass, setNewPass] = useState('')
-
-    const updateInfo = async () => { 
-        getCurrentPassword = await AsyncStorage.multiGet(['Username', 'Password']) // Gets the password the user used to login.
-        currentPasswordValue = getCurrentPassword[1][1].trim()
-
-        if (currPass == '' || newUsername  == '' || newPass == '') {
-            alert("Incomplete fields!")
-        } else {
-            if (currPass === currentPasswordValue) {
-                await AsyncStorage.multiSet([['Username', newUsername], ['Password', newPass]]);
-                alert("Account Details Updated!");
-                navigation.navigate('LoginScreen')
-            } else {
-                alert("Current Password Invalid")
-            }
-        }
-    }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.formContainer}>
-                <View>
-                    <Text style={styles.descriptionText}>Current Password</Text>
-                    <TextInput style={styles.textInput}
-                        value={currPass}
-                        onChangeText={(pass) => setCurrPass(pass)}
-                        secureTextEntry
-                    />
-                </View>
 
                 <View>
                     <Text style={styles.descriptionText}>New Username</Text>
                     <TextInput style={styles.textInput}
-                        value={newUsername}
-                        onChangeText={(username) => setNewUsername(username)}
+
                     />
                 </View>
 
                 <View>
-                    <Text style={styles.descriptionText}>New Password</Text>
-                    <TextInput style={styles.textInput}
-                        value={newPass}
-                        onChangeText={(pass) => setNewPass(pass)}
-                        secureTextEntry
-                    />
-                </View>
-
-                <View>
-                    <TouchableOpacity style={styles.button} onPress={updateInfo}>
-                        <Text style={styles.buttonText}>UPDATE</Text>
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.buttonText}>GENERATE</Text>
                     </TouchableOpacity>
+                </View>
+
+                
+                <View>
+                    <Text style={styles.descriptionText}>Password</Text>
+                    <TextInput style={styles.textInput}
+                    />
                 </View>
 
             </View>

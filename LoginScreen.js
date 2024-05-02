@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 import * as SQLite from 'expo-sqlite/next'
+import * as SecureStore from 'expo-secure-store'
 
 const db = SQLite.openDatabaseAsync('userdata', {
     useNewConnection: true // Stops 'NativeDatabase.prepareAsync' has been rejected error
@@ -12,21 +12,21 @@ const db = SQLite.openDatabaseAsync('userdata', {
 export default function LoginScreen({ navigation }) {
 
     const createTable = async () => {
-        (await db).execAsync('PRAGMA lock_status = unlocked;  CREATE TABLE IF NOT EXISTS passwords (service_name TEXT, username TEXT, password TEXT, type TEXT)')
+        // PRAGMA journal_mode = WAL allows multiple DB transaction to happen at once
+        (await db).execAsync('PRAGMA journal_mode = WAL;  CREATE TABLE IF NOT EXISTS passwords (service_name TEXT, username TEXT, password TEXT, type TEXT)')
     }
 
     createTable()
 
     const register = async () => {
         try {
-
-            let values = await AsyncStorage.multiGet(['Username', 'Password']);
-            let stored_user = values[0][1].trim();
+            let stored_user = await SecureStore.getItemAsync("username")
 
             if (username === stored_user) {
                 alert("Account already exist!")
             } else {
-                await AsyncStorage.multiSet([['Username', username], ['Password', password]]);
+                await SecureStore.setItemAsync("username", username);
+                await SecureStore.setItemAsync("password", password)
                 alert("Account Successfully created!");
                 setUsername("")
                 setPassword("")
@@ -38,10 +38,8 @@ export default function LoginScreen({ navigation }) {
 
     const login = async () => {
         try {
-            let values = await AsyncStorage.multiGet(['Username', 'Password']);
-            let stored_user = values[0][1].trim();
-            let stored_pass = values[1][1].trim();
-
+            let stored_pass = await SecureStore.getItemAsync("password")
+            let stored_user = await SecureStore.getItemAsync("username")
             if (stored_user === username.trim() && stored_pass === password.trim()) {
                 navigation.navigate('Tabs')
                 setUsername('')

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
-import LoginScreen from './LoginScreen';
+import * as SecureStore from 'expo-secure-store'
 
 export default function NewPasswordScreen({ navigation }) {
 
@@ -19,14 +18,14 @@ export default function NewPasswordScreen({ navigation }) {
     const [newPass, setNewPass] = useState('')
 
     const updateInfo = async () => { 
-        getCurrentPassword = await AsyncStorage.multiGet(['Username', 'Password']) // Gets the password the user used to login.
-        currentPasswordValue = getCurrentPassword[1][1].trim()
+        currentPasswordValue = await SecureStore.getItemAsync('password')
 
         if (currPass == '' || newUsername  == '' || newPass == '') {
             alert("Incomplete fields!")
         } else {
             if (currPass === currentPasswordValue) {
-                await AsyncStorage.multiSet([['Username', newUsername], ['Password', newPass]]);
+                await SecureStore.setItemAsync('username', newUsername);
+                await SecureStore.setItemAsync('password', newPass)
                 alert("Account Details Updated!");
                 navigation.navigate('Login')
             } else {

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView, TouchableWithoutFeedback, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 import * as SQLite from 'expo-sqlite/next'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const db = SQLite.openDatabaseAsync('userdata', {
     useNewConnection: true
@@ -36,6 +37,9 @@ export default function ViewPasswords({ navigation }) {
                     <Text style={styles.subText}>{type.slice(0,1).toUpperCase() + type.slice(1)}</Text>
                     <Text style={styles.text}>Username: {username}</Text>
                     <Text style={styles.text}>Password: {password}</Text>
+                    <TouchableOpacity onPress={async () => { await (await db).runAsync('DELETE from passwords WHERE username = ? and password = ?', [username, password])}}>
+                        <Text style={styles.delBtn}>Delete</Text>
+                    </TouchableOpacity>
                     
                 </View>
             )
@@ -81,12 +85,20 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Regular',
         fontSize: 18,
         paddingTop: 20,
-        paddingLeft: 15
+        paddingLeft: 5
     },
     subText: {
         fontFamily: 'Montserrat-Regular',
         fontSize: 15,
         textAlign: 'center'
+    },
+    delBtn: {
+
+        fontFamily: 'Montserrat-Bold',
+        textAlign: 'center',
+        marginTop: 20,
+        fontSize: 20,
+        color: 'red'
     }
 
 });
