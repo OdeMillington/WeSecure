@@ -24,29 +24,52 @@ export default function NewPasswordScreen({ navigator }) {
         return password;
     };
 
+    const refresh = () => {
+        const newPassword = generatePassword();
+        setPassword(newPassword);
+    }
+
+    const [password, setPassword] = useState('');
+
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.formContainer}>
+            <ScrollView>
+                <View style={styles.formContainer}>
 
-                <View>
-                    <Text style={styles.descriptionText}>Enter Desired Length</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        value={String(passwordLength)}
-                        onChangeText={text => setPasswordLength(parseInt(text) || 0)}
-                        keyboardType="numeric"
-                    />
+                <View style={styles.descriptionBox}>
+                    <Image
+                            style={styles.homeImg}
+                            source={require('./assets/lock.png')}
+                        />
+                        <Text style={{fontFamily: 'Montserrat-Bold', fontSize: 20}}>Create Secure Password</Text>
+                    </View>
+
+
+                    <View>
+                        <Text style={styles.descriptionText}>Enter Desired Length</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            value={String(passwordLength)}
+                            onChangeText={text => setPasswordLength(parseInt(text) || 0)}
+                            keyboardType="numeric"
+                        />
+                    </View>
+
+                    <View>
+                        <Text style={styles.descriptionText}>Password</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            value={password}
+                        />
+                    </View>
+                    
+
+                    <TouchableOpacity style={[styles.homeButtons, {marginTop: 15}]} onPress={refresh}>
+                            <Text style={styles.homeText}>Refresh</Text>
+                    </TouchableOpacity>
+
                 </View>
-
-                <View>
-                    <Text style={styles.descriptionText}>Password</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        value={generatePassword()}
-                    />
-                </View>
-
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -90,8 +113,43 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: '#CCCCFF',
     },
+
     buttonText: {
         fontSize: 20,
         fontFamily: 'Montserrat-Bold'
-    }
+    }, 
+    
+    descriptionBox: {
+        marginTop: 20,
+        marginBottom: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        borderWidth: 2,
+        paddingHorizontal: 30,
+        paddingVertical: 20,
+        borderColor: '#282828',
+        borderRadius: 10,
+        backgroundColor: '#FFFF66'
+    },
+    homeImg: {
+        height: 60,
+        width: 40
+    },
+    homeButtons: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 150,
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#CCCCFF',
+    },
+    homeText: {
+        fontFamily: 'Montserrat-Regular',
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+
 });

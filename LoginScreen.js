@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView, Alert, StatusBar } from 'react-native';
 import { useFonts } from 'expo-font';
-import * as SQLite from 'expo-sqlite/next'
+import * as SQLite from 'expo-sqlite'
 import * as SecureStore from 'expo-secure-store'
 
 const db = SQLite.openDatabaseAsync('userdata', {
@@ -18,6 +18,19 @@ export default function LoginScreen({ navigation }) {
 
     createTable()
 
+    const setData = async () => {
+        await SecureStore.setItemAsync("username", username);
+        await SecureStore.setItemAsync("password", password)
+        alert("Account Successfully created!");
+        setUsername("")
+        setPassword("")
+    }
+
+    const clearData = async () => {
+        (await db).runAsync('DELETE FROM passwords')
+        setData()
+    }
+
     const register = async () => {
         try {
 
@@ -26,16 +39,18 @@ export default function LoginScreen({ navigation }) {
             } else {
 
             let stored_user = await SecureStore.getItemAsync("username")
-
-            if (username === stored_user) {
-                alert("Account already exist!")
+                
+            if (stored_user) {
+                Alert.alert('Create New Account', 'You already have an account stored. Creating a new account will clear all stored data!',
+                    [
+                        {text:'Cancel', style: 'cancel'},
+                        {text: 'Proceed', onPress: clearData}
+                    ], {cancelable: true}
+                )
             } else {
-                await SecureStore.setItemAsync("username", username);
-                await SecureStore.setItemAsync("password", password)
-                alert("Account Successfully created!");
-                setUsername("")
-                setPassword("")
-            }}
+                setData()
+            }
+        }
         } catch (error) {
             alert("Error Registering Account. Try again!");
         }
@@ -70,6 +85,7 @@ export default function LoginScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar backgroundColor={'transparent'} translucent/>
             <ScrollView>
                 <View style={styles.imageContainer}>
                     <Image
@@ -124,6 +140,7 @@ const styles = StyleSheet.create({
     imageContainer: {
         marginTop: 25,
         alignItems: 'center',
+        borderRadius: 25
     },
     homeImg: {
         height: 250,
@@ -146,7 +163,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textInput: {
-        borderWidth: 2,
+        borderWidth: 1,
         height: 50,
         width: 275,
         borderColor: 'white',
@@ -163,6 +180,7 @@ const styles = StyleSheet.create({
     homeButtons: {
         alignItems: 'center',
         justifyContent: 'center',
+        width: 150,
         paddingVertical: 12,
         paddingHorizontal: 32,
         borderRadius: 4,

@@ -27,7 +27,8 @@ const Tabs = () => {
     {
       'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
       'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
-      'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf')
+      'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
+      'Montserrat-SemiBold': require('./assets/fonts/Montserrat-SemiBold.ttf')
     }
   )
 
@@ -36,10 +37,18 @@ const Tabs = () => {
       initialRouteName='View All Passwords'
       screenOptions={{
         drawerStyle: { backgroundColor: '#262626' },
-        drawerActiveTintColor: 'white',
+        drawerActiveTintColor: 'crimson',
         drawerInactiveTintColor: 'white',
+        drawerLabelStyle: {fontSize: 16, fontFamily:'Montserrat-Bold'},
+        headerStyle: {
+          backgroundColor: '#CBC3E3',    
+        },
+        headerTitleStyle: {
+          fontFamily: 'Montserrat-SemiBold'
+        }
       }}
     >
+
       <Drawer.Screen name="Store Password" component={NewPasswordScreen} options={{ title: 'Store Password', drawerIcon: Plus }} />
       <Drawer.Screen name="Update User Details" component={updateDetails} options={{ title: 'Update User Details', drawerIcon: Update }} />
       <Drawer.Screen name="View All Passwords" component={ViewPasswords} options={{ title: 'View All Passwords', drawerIcon: View }} />

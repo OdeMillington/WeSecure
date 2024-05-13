@@ -9,7 +9,8 @@ export default function NewPasswordScreen({ navigation }) {
         {
             'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
             'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
-            'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf')
+            'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
+            'Montserrat-SemiBold': require('./assets/fonts/Montserrat-SemiBold.ttf')
         }
     )
 
@@ -36,40 +37,51 @@ export default function NewPasswordScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.formContainer}>
-                <View>
-                    <Text style={styles.descriptionText}>Current Password</Text>
-                    <TextInput style={styles.textInput}
-                        value={currPass}
-                        onChangeText={(pass) => setCurrPass(pass)}
-                        secureTextEntry
-                    />
-                </View>
+            <ScrollView>
+                <View style={styles.formContainer}>
 
-                <View>
-                    <Text style={styles.descriptionText}>New Username</Text>
-                    <TextInput style={styles.textInput}
-                        value={newUsername}
-                        onChangeText={(username) => setNewUsername(username)}
-                    />
-                </View>
+                    <View style={styles.descriptionBox}>
+                    <Image
+                            style={styles.homeImg}
+                            source={require('./assets/warninglogo.webp')}
+                        />
+                        <Text style={{fontFamily: 'Montserrat-Bold', fontSize: 16}}>CHANGE LOGIN DETAILS</Text>
+                    </View>
 
-                <View>
-                    <Text style={styles.descriptionText}>New Password</Text>
-                    <TextInput style={styles.textInput}
-                        value={newPass}
-                        onChangeText={(pass) => setNewPass(pass)}
-                        secureTextEntry
-                    />
-                </View>
+                    <View>
+                        <Text style={styles.descriptionText}>Current Password</Text>
+                        <TextInput style={styles.textInput}
+                            value={currPass}
+                            onChangeText={(pass) => setCurrPass(pass)}
+                            secureTextEntry
+                        />
+                    </View>
 
-                <View>
-                    <TouchableOpacity style={styles.button} onPress={updateInfo}>
-                        <Text style={styles.buttonText}>UPDATE</Text>
-                    </TouchableOpacity>
-                </View>
+                    <View>
+                        <Text style={styles.descriptionText}>New Username</Text>
+                        <TextInput style={styles.textInput}
+                            value={newUsername}
+                            onChangeText={(username) => setNewUsername(username)}
+                        />
+                    </View>
 
-            </View>
+                    <View>
+                        <Text style={styles.descriptionText}>New Password</Text>
+                        <TextInput style={styles.textInput}
+                            value={newPass}
+                            onChangeText={(pass) => setNewPass(pass)}
+                            secureTextEntry
+                        />
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style={styles.button} onPress={updateInfo}>
+                            <Text style={styles.buttonText}>UPDATE</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -82,6 +94,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     formContainer: {
+        marginTop: 25,
         flex: 1,
         gap: 25,
         alignItems: 'center'
@@ -94,7 +107,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     textInput: {
-        borderWidth: 2,
+        borderWidth: 1,
         height: 50,
         fontSize: 20,
         width: 270,
@@ -116,5 +129,21 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 20,
         fontFamily: 'Montserrat-Bold'
-    }
+    },
+    descriptionBox: {
+        marginBottom: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        borderWidth: 2,
+        paddingHorizontal: 30,
+        paddingVertical: 20,
+        borderColor: '#282828',
+        borderRadius: 10,
+        backgroundColor: '#FFFF66'
+    },
+    homeImg: {
+        height: 35,
+        width: 35
+    },
 });

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import DropDownPicker from 'react-native-dropdown-picker';
-import * as SQLite from 'expo-sqlite/next'
+import * as SQLite from 'expo-sqlite'
 
 const db = SQLite.openDatabaseAsync('userdata', {
     useNewConnection: true  // Stops 'NativeDatabase.prepareAsync' has been rejected error
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     textInput: {
-        borderWidth: 2,
+        borderWidth: 1,
         height: 50,
         fontSize: 20,
         width: 270,

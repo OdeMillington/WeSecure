@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
-import * as SQLite from 'expo-sqlite/next'
+import * as SQLite from 'expo-sqlite'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const db = SQLite.openDatabaseAsync('userdata', {
@@ -35,12 +35,11 @@ export default function ViewPasswords({ navigation }) {
                 <View style={styles.box}>
                     <Text style={[styles.sn, styles.title]}>{service_name}</Text>
                     <Text style={styles.subText}>{type.slice(0,1).toUpperCase() + type.slice(1)}</Text>
-                    <Text style={styles.text}>Username: {username}</Text>
-                    <Text style={styles.text}>Password: {password}</Text>
+                    <Text style={styles.text} selectable={true}>Username: {username}</Text>
+                    <Text style={styles.text} selectable={true}>Password: {password} </Text>
                     <TouchableOpacity onPress={async () => { await (await db).runAsync('DELETE from passwords WHERE username = ? and password = ?', [username, password])}}>
                         <Text style={styles.delBtn}>Delete</Text>
-                    </TouchableOpacity>
-                    
+                    </TouchableOpacity>         
                 </View>
             )
         }) 
